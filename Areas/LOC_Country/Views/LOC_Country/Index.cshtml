@@ -1,0 +1,133 @@
+﻿@using System.Data;
+@using Themeimplement.Areas.LOC_Country.Models;
+@model DataTable;
+
+@{
+	ViewData["Title"] = "Home Page";
+	LOC_CountryFilterModel filterModel = new LOC_CountryFilterModel();
+}
+
+<main class="main" id="main">
+	<div class="body">
+
+
+		@*<breadcrumb></breadcrumb>*@
+	@*	<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a "/"><i class="bi bi-house-door"></i></a></li>
+				<li class="breadcrumb-item"><a>Country List</a></li>
+			
+			</ol>
+		</nav>*@
+
+
+		<div class="d-flex mt-3 mb-3">
+			<h3>Country List</h3>
+		</div>
+		@if (TempData["Country_AddEdit"] != null)
+		{
+			<div class="alert alert-success" role="alert">
+				@TempData["Country_AddEdit"]
+			</div>
+		}
+		@if (TempData["Country_Delete"] != null)
+		{
+			<div class="alert alert-danger" role="alert">
+				@TempData["Country_Delete"]
+			</div>
+		}
+		@*Filter Data*@
+		<form class="row my-3 p-3" style="border:1px solid black">
+			<div><h2>Filter</h2></div>
+
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<div class="col-6">
+				<input type="text" placeholder="Enter Country Name" asp-for="@filterModel.CountryName" class="form-control mt-2" id="inputAddress">
+			</div>
+			<div class="col-6">
+				<input type="text" placeholder="Enter Country Code" asp-for="@filterModel.CountryCode" class="form-control mt-2" id="inputAddress">
+			</div>
+			<div class="col-1 my-3 me-3">
+				<button type="submit" class="btn btn-primary" asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="LOC_CountryFilter">
+					Search
+				</button>
+			</div>
+			<div class="col-10 my-3">
+				<form>
+					<button type="submit" class="btn btn-danger" runat="server" OnClientClick="this.form.reset();return false;">Clear</button>
+				</form>
+			</div>
+		</form>
+
+		<div class="table-header d-flex">
+			<div class="add-button mr-auto">
+				<a asp-area="LOC_Country" asp-controller="LOC_Country" asp-action="LOC_CountryAdd">
+					<input type="button" class="btn btn-success" value="Add New Record" />
+				</a>
+			</div>
+			<div class="pull-right col-xl-4 ms-lg-auto">
+				<div id="sample_1_filter" class="dataTables_filter">
+					<input type="text" class="form-control input-group-sm input-small input-inline" id="sample_1" placeholder="Search" aria-controls="sample_1">
+				</div>
+			</div>
+		</div>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">CountryId</th>
+					<th scope="col">CountryName</th>
+					<th scope="col">CountryCode</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody id="sample_2">
+				@foreach (DataRow dr in Model.Rows)
+
+				{
+					<tr>
+						<td>@dr["CountryId"]</td>
+						<td>@dr["CountryName"]</td>
+						<td>@dr["CountryCode"]</td>
+						<td>
+							<form method="post" asp-area="LOC_Country"  asp-controller="LOC_Country" asp-action="LOC_CountryDelete">
+								<input type="hidden" value="@Convert.ToInt32(dr["CountryID"])" name="CountryID" />
+								<button type="submit" class="btn btn-danger" value="Delete" onclick="return fun1()">Delete</button>
+								<a class="btn btn-info btn-xs" asp-controller="LOC_Country" asp-action="LOC_CountryAdd" asp-route-countryid="@Convert.ToInt32(dr["CountryID"])">Edit</a>
+							</form>
+						</td>
+
+
+					</tr>
+				}
+
+
+			</tbody>
+		</table>
+	</div>
+</main>
+
+@section Scripts{
+	@{
+		<script>
+			function fun1() {
+				if (confirm("Are You Sure You Want To Delete This Record:"))
+					return true;
+				else
+					return false
+			}
+
+			$(document).ready(function () {
+				$("#sample_1").on("keyup", function () {
+					var value = $(this).val().toLowerCase();
+					$("#sample_2 tr").filter(function () {
+						$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					});
+				});
+			});
+
+		
+		</script>
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

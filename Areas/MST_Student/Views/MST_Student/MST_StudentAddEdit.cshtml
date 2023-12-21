@@ -1,0 +1,140 @@
+﻿@model Themeimplement.Areas.MST_Student.Models.MST_StudentModel;
+@using System.Data;
+<div class="main" id="main">
+	<div class="body">
+		<div>
+			<form method="post" asp-controller="MST_Student" asp-action="MST_StudentSave" asp-area="MST_Student">
+
+				@Html.HiddenFor(x=>x.StudentID)
+
+				<div class="mt-3 mb-3">
+					<h2> Student Add / Update Page</h2>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Student Name</label>
+					<div class="col-xl-4">
+						<input type="text" class="form-control" id="floatingInput" placeholder="Student Name" asp-for="StudentName">
+
+						<span asp-validation-for="StudentName" class="text-danger"></span>
+					</div>
+				</div>
+
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Mobile No.</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="MobileNoStudent" type="text" class="form-control" id="floatingPassword" placeholder="Student Mobile Number" />
+
+						<span asp-validation-for="MobileNoStudent" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Email</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="Email" type="text" class="form-control" id="floatingPassword" placeholder="Student Email" />
+
+						<span asp-validation-for="Email" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Father Mobile No.</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="MobileNoFather" type="text" class="form-control" id="floatingPassword" placeholder="Student Father Mobile Number" />
+
+						<span asp-validation-for="MobileNoFather" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">StudentAddress</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="Address" type="text" class="form-control" id="floatingPassword" placeholder="Student Address" />
+
+						<span asp-validation-for="Address" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">BirthDate</label>
+					<div class="col-xl-4">
+						<input asp-for="BirthDate" type="date" class="form-control" placeholder="Student BirthDate" />
+
+						<span asp-validation-for="BirthDate" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Student Age</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="Age" type="text" class="form-control" id="floatingPassword" placeholder="Student Age" />
+
+						<span asp-validation-for="Age" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Gender</label>
+					<div class="col-xl-4">
+
+
+						<select class="form-control" asp-for="Gender">
+							<option selected disabled value="">Choose Gender</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+						<span asp-validation-for="Gender" class="text-danger"></span>
+
+					</div>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">is Active</label>
+					<div class="col-xl-4">
+
+
+						<select class="form-control" asp-for="IsActive">
+							<option value="True">True</option>
+							<option value="False">False</option>
+						</select>
+						<span asp-validation-for="IsActive" class="text-danger"></span>
+
+					</div>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Password</label>
+					<div class="col-xl-4">
+						<input type="text" asp-for="Password" type="text" class="form-control" id="floatingPassword" placeholder="Student Password" />
+
+						<span asp-validation-for="Password" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">City Name</label>
+					<div class="col-xl-4">
+						<select class="form-control" asp-for="CityID" asp-items="@(new SelectList(ViewBag.CityList,"CityID","CityName"))">
+							<option value="">Select City</option>
+						</select>
+					</div>
+				</div>
+				<div class="mb-3 row form-group">
+					<label class="col-sm-2 col-form-label">Branch Name</label>
+					<div class="col-xl-4">
+						<select class="form-control" asp-for="BranchID" asp-items="@(new SelectList(ViewBag.BranchList,"BranchID","BranchName"))">
+							<option value="">Select Branch</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-1 my-2 me-2">
+					<input type="hidden" name="StudentID" value="@Model.StudentID" />
+					<button type="submit" value="Save" class="submit btn btn-success">Save</button>
+				</div>
+				<div class="col-10 my-2">
+					<a class="btn btn-primary" asp-action="MST_StudentList">Back</a>
+				</div>
+		</div>
+			</form>
+		</div>
+	</div>
+</div>
