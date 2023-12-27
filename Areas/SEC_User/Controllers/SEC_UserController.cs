@@ -17,6 +17,9 @@ namespace Themeimplement.Areas.SEC_User.Controllers
 		{
 			return View();
 		}
+		public IActionResult SEC_UserRegister() {
+			return View();
+		}
 		[HttpPost]
 		public IActionResult Login(SEC_UserModel modelSEC_User)
 		{
@@ -60,6 +63,7 @@ namespace Themeimplement.Areas.SEC_User.Controllers
 				{
 					return RedirectToAction("Index", "Home");
 				}
+
 			}
 			return RedirectToAction("Index");
 		}
@@ -70,19 +74,19 @@ namespace Themeimplement.Areas.SEC_User.Controllers
 			return RedirectToAction("SEC_UserLogin");
 		}
 
-        public IActionResult SignUpUser(SEC_UserModel sEC_UserModel)
+        public IActionResult SEC_UserSignUp(SEC_UserModel sEC_UserModel)
         {
             SEC_UserDALBase dal = new SEC_UserDALBase();
 			bool IsSuccess = dal.PR_User_Create_Account(sEC_UserModel.UserName, sEC_UserModel.Password);
 
 			if (IsSuccess)
 			{
-				return RedirectToAction("SEC_UserSignUp");
+				return RedirectToAction("SEC_UserLogin");
 			}
 
 			else
 			{
-				TempData["Error"] = "user allready exists";
+				
 				return RedirectToAction("SEC_UserLogin");
 			}
 

@@ -33,29 +33,37 @@ namespace AdminPanel.DAL.SEC_User
 		#endregion
 
 		#region Method:User Insert 
-		public bool PR_User_Create_Account(string UserName, string Password) { 
-			SqlDatabase sqlDatabase = new SqlDatabase(ConnectionString);
-			DbCommand dbCommand = sqlDatabase.GetStoredProcCommand("PR_User_Create_Account");
-			sqlDatabase.AddInParameter(dbCommand, "UserName", SqlDbType.VarChar, UserName);
-			DataTable dt = new DataTable();
-			using (IDataReader dr = sqlDatabase.ExecuteReader(dbCommand)) { 
-				dt.Load(dr);
-	}
-			if (dt.Rows.Count > 0) { return false; }
-			else {
-				DbCommand dbCommand1 = sqlDatabase.GetStoredProcCommand("PR_User_Create_Account");
-				sqlDatabase.AddInParameter(dbCommand1, "UserName", SqlDbType.VarChar, UserName);
-                sqlDatabase.AddInParameter(dbCommand1, "Password", SqlDbType.VarChar, Password);
-                if (Convert.ToBoolean(sqlDatabase.ExecuteNonQuery(dbCommand1)))
+		public bool PR_User_Create_Account(string UserName, string Password) {
+			try {
+                SqlDatabase sqlDatabase = new SqlDatabase(ConnectionString);
+                DbCommand dbCommand = sqlDatabase.GetStoredProcCommand("PR_SEC_User_SelectUserName");
+                sqlDatabase.AddInParameter(dbCommand, "UserName", SqlDbType.VarChar, UserName);
+                DataTable dt = new DataTable();
+                using (IDataReader dr = sqlDatabase.ExecuteReader(dbCommand))
                 {
-					return true;
+                    dt.Load(dr);
                 }
+                if (dt.Rows.Count > 0) { return false; }
                 else
                 {
-                    return false;
+                    DbCommand dbCommand1 = sqlDatabase.GetStoredProcCommand("PR_SEC_User_Insert");
+                    sqlDatabase.AddInParameter(dbCommand1, "UserName", SqlDbType.VarChar, UserName);
+                    sqlDatabase.AddInParameter(dbCommand1, "Password", SqlDbType.VarChar, Password);
+                    if (Convert.ToBoolean(sqlDatabase.ExecuteNonQuery(dbCommand1)))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
-		}
+			catch(Exception ex) { return false; }
+
+            }
+				
+			
 
 
 	}

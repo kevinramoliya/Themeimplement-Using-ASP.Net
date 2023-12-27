@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-
-public class CheckAccess : ActionFilterAttribute, IAuthorizationFilter
+namespace Themeimplement.Bal
 {
-   
-    public void OnAuthorization(AuthorizationFilterContext filterContext)
+    public class CheckAccess : ActionFilterAttribute, IAuthorizationFilter
     {
-		var rd = filterContext.RouteData;
-		string currentAction = rd.Values["action"].ToString();
-		string currentController = rd.Values["controller"].ToString();
 
-		if (filterContext.HttpContext.Session.GetString("UserId") == null)
-            filterContext.Result = new RedirectResult("~/SEC_User/SEC_User/SEC_UserLogin");
-    }
-    
- public override void OnResultExecuting(ResultExecutingContext context)
-    {
-        context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no - store, must - revalidate";
- context.HttpContext.Response.Headers["Expires"] = "-1";
-        context.HttpContext.Response.Headers["Pragma"] = "no-cache";
-        base.OnResultExecuting(context);
+        public void OnAuthorization(AuthorizationFilterContext filterContext)
+        {
+            var rd = filterContext.RouteData;
+            string currentAction = rd.Values["action"].ToString();
+            string currentController = rd.Values["controller"].ToString();
+
+            if (filterContext.HttpContext.Session.GetString("UserId") == null)
+                filterContext.Result = new RedirectResult("~/SEC_User/SEC_User/SEC_UserRegister");
+        }
+
+        public override void OnResultExecuting(ResultExecutingContext context)
+        {
+            context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no - store, must - revalidate";
+            context.HttpContext.Response.Headers["Expires"] = "-1";
+            context.HttpContext.Response.Headers["Pragma"] = "no-cache";
+            base.OnResultExecuting(context);
+        }
     }
 }
