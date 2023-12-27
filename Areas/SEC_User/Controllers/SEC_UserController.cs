@@ -58,7 +58,7 @@ namespace Themeimplement.Areas.SEC_User.Controllers
 				}
 				if (HttpContext.Session.GetString("UserName") != null && HttpContext.Session.GetString("Password") != null)
 				{
-				return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Home");
 				}
 			}
 			return RedirectToAction("Index");
@@ -88,5 +88,5 @@ namespace Themeimplement.Areas.SEC_User.Controllers
 
 
         }
-    }
+	}
 }

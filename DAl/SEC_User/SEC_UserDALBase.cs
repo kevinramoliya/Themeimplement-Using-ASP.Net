@@ -40,7 +40,7 @@ namespace AdminPanel.DAL.SEC_User
 			DataTable dt = new DataTable();
 			using (IDataReader dr = sqlDatabase.ExecuteReader(dbCommand)) { 
 				dt.Load(dr);
-			}
+	}
 			if (dt.Rows.Count > 0) { return false; }
 			else {
 				DbCommand dbCommand1 = sqlDatabase.GetStoredProcCommand("PR_User_Create_Account");
